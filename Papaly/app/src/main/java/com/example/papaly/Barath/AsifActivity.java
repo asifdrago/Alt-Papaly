@@ -21,6 +21,7 @@ import java.util.Calendar;
 
 public class AsifActivity extends AppCompatActivity {
     int waterLevelTriggerPercentage1 = 75;
+    int timetriggerPercentage = 15;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +50,7 @@ public class AsifActivity extends AppCompatActivity {
         
         TextView timeTriggerTime = findViewById(R.id.timetriggertime);
         TextView timeTriggerWaterLevel = (TextView) findViewById(R.id.timetriggerwaterlevel);
+        timeTriggerWaterLevel.setText(""+timetriggerPercentage);
 
         ToggleButton ManualSwitch = (ToggleButton) findViewById(R.id.manualswitchbutton1);
 
@@ -211,6 +213,47 @@ public class AsifActivity extends AppCompatActivity {
                     alert.show();
                 }
             });
+
+        findViewById(R.id.timetriggerwaterlevel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(AsifActivity.this);
+                alert.setMessage("Please select water-level percentage for automatic time-trigger:");
+                alert.setTitle("Select Water-level");
+
+                final NumberPicker numberPicker = new NumberPicker(AsifActivity.this);
+                numberPicker.setMaxValue(100);
+                numberPicker.setMinValue(15);
+                alert.setView(numberPicker);
+
+                alert.setPositiveButton(
+                        "Yes",
+                        new DialogInterface
+                                .OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog,
+                                                int which)
+                            {
+                                // for +ve ....set water level
+
+                                // change value for this
+                                //numberPicker.setValue(waterLevelTriggerPercentage1);
+                                timetriggerPercentage = (int)numberPicker.getValue();
+                                timeTriggerWaterLevel.setText("" + timetriggerPercentage);
+                                //finish();
+                            }
+                        });
+
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //nothing happens
+                    }
+                });
+
+                alert.show();
+            }
+        });
     }
 
     //---------------------
